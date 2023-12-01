@@ -1,0 +1,7 @@
+---
+foo: Bar
+bar: Foo
+
+array:
+  - "%{alias('foo')}"
+  - "%{alias('bar')}"

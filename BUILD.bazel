@@ -1,0 +1,10 @@
+load("@rules_hiera//hiera:toolchains.bzl", "register_toolchains")
+
+register_toolchains()
+
+filegroup(
+    name = "lookup",
+    srcs = [
+     "@rules_hiera//:toolchain_type",
+    ],
+)

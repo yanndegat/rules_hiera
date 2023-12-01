@@ -1,0 +1,10 @@
+module(
+    name = "rules_hiera_bcr_tests",
+    version = "0.0.1",
+)
+
+bazel_dep(name = "rules_hiera", version = "", repo_name = "rules_hiera")
+local_path_override(
+    module_name = "rules_hiera",
+    path = "../..",
+)

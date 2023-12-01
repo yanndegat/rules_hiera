@@ -1,0 +1,23 @@
+load("@rules_hiera//hiera:def.bzl", "hiera_lookup")
+
+hiera_lookup(
+    name = "bar",
+    keys = ["bar"],
+    merge = "deep",
+    hieradata = "//hieradata",
+    render_as = "json",
+    vars = {
+        "scope": "test",
+    },
+)
+
+hiera_lookup(
+    name = "array",
+    keys = ["array"],
+    merge = "deep",
+    hieradata = "//hieradata",
+    render_as = "json",
+    vars = {
+        "scope": "test",
+    },
+)

@@ -1,0 +1,11 @@
+---
+version: 5
+
+defaults:
+  datadir: .
+
+hierarchy:
+  - name: overrides per scope
+    path: "scoped/%{scope}.yaml"
+  - name: global defaults
+    path: "common.yaml"
