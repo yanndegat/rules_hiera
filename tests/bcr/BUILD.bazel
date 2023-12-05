@@ -1,4 +1,4 @@
-load("@rules_hiera//hiera:def.bzl", "hiera_lookup")
+load("@rules_hiera//hiera:def.bzl", "hiera_lookup", "hiera_tar")
 
 hiera_lookup(
     name = "bar",
@@ -19,5 +19,24 @@ hiera_lookup(
     render_as = "json",
     vars = {
         "scope": "test",
+    },
+)
+
+hiera_tar(
+    name = "hiera-tar",
+    base = "//hieradata",
+    hieradata = "//hieradata-additional",
+    prefix    = "hieradata",
+)
+
+hiera_lookup(
+    name = "array2",
+    keys = ["array"],
+    hieradata = ":hiera-tar",
+    config = "hieradata/hiera.yaml",
+    merge = "deep",
+    render_as = "json",
+    vars = {
+        "scope": "test2",
     },
 )

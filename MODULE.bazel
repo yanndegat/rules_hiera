@@ -5,6 +5,7 @@ module(
 )
 
 bazel_dep(name = "platforms", version = "0.0.7")
+bazel_dep(name = "rules_pkg", version = "0.9.1")
 
 repos = use_extension("@rules_hiera//hiera:extensions.bzl", "repositories")
 
