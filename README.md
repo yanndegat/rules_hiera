@@ -11,7 +11,7 @@ bazel_dep(name = "rules_hiera", version = "0.0.1")
 git_override(
     module_name = "rules_hiera",
     remote      = "https://github.com/yanndegat/rules_hiera",
-    commit      = "9f44cd6b0fc36e552d274d6fcfd5c3bfad4efce6",
+    commit      = "443c78cce32612a91b5740683273f5508d069a5a",
 )
 ```
 
@@ -26,6 +26,33 @@ hiera_lookup(
     keys = ["bar"],
     hieradata = "//hieradata",
     merge     = "deep",
+    render_as = "json",
+    vars = {
+        "scope": "test",
+    },
+)
+```
+
+
+It is also possible to build a hiera tar package to merge hieradata directory structures before passing it
+to hiera_lookup:
+
+``` python
+load("@rules_hiera//hiera:def.bzl", "hiera_lookup", "hiera_tar")
+
+hiera_tar(
+    name = "hiera-tar",
+    base = "//hieradata",
+    hieradata = "//hieradata-additional",
+    prefix    = "hieradata",
+)
+
+hiera_lookup(
+    name = "arraylookup",
+    keys = ["array"],
+    hieradata = ":hiera-tar",
+    config = "hieradata/hiera.yaml",
+    merge = "deep",
     render_as = "json",
     vars = {
         "scope": "test",
