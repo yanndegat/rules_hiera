@@ -40,3 +40,15 @@ hiera_lookup(
         "scope": "test2",
     },
 )
+
+hiera_lookup(
+    name = "array2-outfile",
+    keys = ["array"],
+    hieradata = ":hiera-tar",
+    config = "hieradata/hiera.yaml",
+    merge = "deep",
+    out   = "my_array.yaml",
+    vars = {
+        "scope": "test2",
+    },
+)

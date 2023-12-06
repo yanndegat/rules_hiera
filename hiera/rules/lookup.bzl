@@ -36,7 +36,12 @@ def _lookup_impl(ctx):
     if ctx.attr.default != None and ctx.attr.default != "":
         opts["--default"] = ctx.attr.default
 
-    out = ctx.actions.declare_file("{}.{}".format(ctx.attr.name, ctx.attr.render_as))
+    out_filename = ctx.attr.out
+
+    if out_filename == None or out_filename == "":
+        out_filename = "{}.{}".format(ctx.attr.name, ctx.attr.render_as)
+
+    out = ctx.actions.declare_file(out_filename)
 
     if tar_mode:
         command = "tar -xf {tar_file} && [[ -f {config} ]] && ({lookup} {keys} {vars} {opts} > '{out}') || echo ERROR: missing config file {config} >&2"
@@ -78,6 +83,7 @@ hiera_lookup = rule(
         "keys": attr.string_list(
             mandatory = True,
         ),
+        "out": attr.string(),
         "render_as": attr.string(
             mandatory = True,
             default   = "yaml",

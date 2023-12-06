@@ -15,6 +15,7 @@ def hiera_lookup(
     config = "hiera.yaml",
     vars = {},
     render_as = "yaml", defaut = None,
+    out = None,
     merge = "first",
     visibility = ["//visibility:public"],
     tags = None):
@@ -27,6 +28,7 @@ def hiera_lookup(
         vars = vars,
         render_as = render_as,
         merge = merge,
+        out = out,
         tags = tags,
         visibility = visibility,
     )
