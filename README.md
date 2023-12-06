@@ -11,7 +11,7 @@ bazel_dep(name = "rules_hiera", version = "0.0.1")
 git_override(
     module_name = "rules_hiera",
     remote      = "https://github.com/yanndegat/rules_hiera",
-    commit      = "443c78cce32612a91b5740683273f5508d069a5a",
+    commit      = "9a91c21ca11d34e9411c6b65dec43ec3f875221a",
 )
 ```
 
