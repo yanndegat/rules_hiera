@@ -9,18 +9,17 @@ bazel_dep(name = "rules_pkg", version = "0.9.1")
 
 repos = use_extension("@rules_hiera//hiera:extensions.bzl", "repositories")
 
-repos.download(
-    version = "0.6.5",
-    sha256 = "92d2c8046f37510270d95e69409435a41b90504b76a16e5f57288233ac706c45",
-    os = "linux",
-    arch = "amd64",
-)
-
 use_repo(
     repos,
-    "hiera",
+    "hiera_linux_amd64",
+    "hiera_linux_arm64",
+    "hiera_darwin_amd64",
+    "hiera_darwin_arm64",
 )
 
 register_toolchains(
     "@rules_hiera//:linux_amd64_toolchain",
+    "@rules_hiera//:linux_arm64_toolchain",
+    "@rules_hiera//:darwin_amd64_toolchain",
+    "@rules_hiera//:darwin_arm64_toolchain",
 )

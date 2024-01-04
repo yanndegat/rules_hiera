@@ -1,7 +1,7 @@
 package(default_visibility = ["//visibility:public"])
 
 filegroup(
-    name = "lookup",
-    srcs = ["hiera/lookup_{version}"],
+    name = "lookup_{os}_{arch}",
+    srcs = ["hiera/lookup_v{version}_{os}_{arch}"],
     visibility = ["//visibility:public"]
 )

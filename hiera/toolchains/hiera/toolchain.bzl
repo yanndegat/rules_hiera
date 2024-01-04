@@ -23,37 +23,6 @@ hiera_toolchain = rule(
     },
 )
 
-def register_hiera_toolchain(visibility):
-    toolchain_typename = "toolchain_type"
-    native.toolchain_type(
-        name = toolchain_typename,
-        visibility = visibility,
-    )
-
-    name = "linux_amd64"
-    toolchain_name = "{}_toolchain".format(name)
-
-    hiera_toolchain(
-        name = "{}_impl".format(name),
-        lookup = "@hiera//:lookup",
-    )
-
-    native.toolchain(
-        name = toolchain_name,
-        exec_compatible_with = [
-            "@platforms//os:linux",
-            "@platforms//cpu:x86_64",
-        ],
-        target_compatible_with = [
-            "@platforms//os:linux",
-            "@platforms//cpu:x86_64",
-        ],
-        toolchain = ":{}_impl".format(name),
-        toolchain_type = ":{}".format(toolchain_typename),
-        visibility = visibility,
-    )
-
-
 def _download_impl(ctx):
     ctx.report_progress("Downloading hiera")
 
@@ -63,6 +32,8 @@ def _download_impl(ctx):
         executable = False,
         substitutions = {
             "{version}": ctx.attr.version,
+            "{os}": ctx.attr.os,
+            "{arch}": ctx.attr.arch,
         },
     )
 
@@ -75,8 +46,6 @@ def _download_impl(ctx):
         output = "hiera",
      ):
         fail("could not dl toolchain")
-    else:
-        print("successfully dl tool")
 
     return {
         "version": ctx.attr.version,
