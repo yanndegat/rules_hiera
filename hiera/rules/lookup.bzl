@@ -44,9 +44,9 @@ def _lookup_impl(ctx):
     out = ctx.actions.declare_file(out_filename)
 
     if tar_mode:
-        command = "tar -xf {tar_file} && [[ -f {config} ]] && ({lookup} {keys} {vars} {opts} > '{out}') || echo ERROR: missing config file {config} >&2"
+        command = "mkdir -p $(dirname {out}); TMPDIR=$(mktemp -d -p .); cd $TMPDIR; tar -xf ../{tar_file} && [[ -f {config} ]] && (../{lookup} {keys} {vars} {opts} > '../{out}') || echo ERROR: missing config file {config} >&2"
     else:
-        command = "[[ -f {config} ]] && ({lookup} {keys} {vars} {opts} > '{out}') || echo ERROR: missing config file {config} >&2"
+        command = "mkdir -p $(dirname {out}); [[ -f {config} ]] && ({lookup} {keys} {vars} {opts} > '{out}') || echo ERROR: missing config file {config} >&2"
 
     ctx.actions.run_shell(
         inputs  = ctx.files.hieradata,
