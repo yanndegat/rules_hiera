@@ -44,7 +44,10 @@ def _lookup_impl(ctx):
     out = ctx.actions.declare_file(out_filename)
 
     if tar_mode:
-        command = "mkdir -p $(dirname {out}); UNTARDIR=$(TMPDIR=. _CS_DARWIN_USER_TEMP_DIR=. mktemp -d); cd $UNTARDIR; tar -xf ../{tar_file} && [[ -f {config} ]] && (../{lookup} {keys} {vars} {opts} > '../{out}') || echo ERROR: missing config file {config} >&2"
+        # hack 1: it mandatory to untar the hieradata archive in a tmpdir to avoid collisions when running multiple lookups in parallel
+        # hack 2: under darwin, it's hard to generate a tmpdir in another directory than _CS_DARWIN_USER_TEMP_DIR. we use basename $(mktemp) hack
+        #         to have something useable under linux and macos
+        command = "mkdir -p $(dirname {out}); UNTARDIR=$(basename $(mktemp)); mkdir -p $UNTARDIR && cd $UNTARDIR && tar -xf ../{tar_file} && [[ -f {config} ]] && (../{lookup} {keys} {vars} {opts} > '../{out}') || echo ERROR: missing config file {config} >&2"
     else:
         command = "mkdir -p $(dirname {out}); [[ -f {config} ]] && ({lookup} {keys} {vars} {opts} > '{out}') || echo ERROR: missing config file {config} >&2"
 
