@@ -44,7 +44,7 @@ def _lookup_impl(ctx):
     out = ctx.actions.declare_file(out_filename)
 
     if tar_mode:
-        command = "mkdir -p $(dirname {out}); TMPDIR=$(mktemp -d -p .); cd $TMPDIR; tar -xf ../{tar_file} && [[ -f {config} ]] && (../{lookup} {keys} {vars} {opts} > '../{out}') || echo ERROR: missing config file {config} >&2"
+        command = "mkdir -p $(dirname {out}); UNTARDIR=$(TMPDIR=. _CS_DARWIN_USER_TEMP_DIR=. mktemp -d); cd $UNTARDIR; tar -xf ../{tar_file} && [[ -f {config} ]] && (../{lookup} {keys} {vars} {opts} > '../{out}') || echo ERROR: missing config file {config} >&2"
     else:
         command = "mkdir -p $(dirname {out}); [[ -f {config} ]] && ({lookup} {keys} {vars} {opts} > '{out}') || echo ERROR: missing config file {config} >&2"
 
